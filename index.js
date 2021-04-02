@@ -7,7 +7,7 @@ let gl = canvas.getContext('webgl');
 gl.clearColor(1, 0 , 0, 1)
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-let base = 1024;
+let base = 2;
 // Set the vertex shader
 let vs = `
   attribute vec2 pos;
