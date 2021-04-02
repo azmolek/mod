@@ -43,7 +43,7 @@ let fs = `
 
     // Translate the Y position
     normal_y = normal_y - (translate_y * base);
-    float color_value = mod(normal_x * normal_y + step, base);
+    float color_value = mod(normal_x ** 2 + normal_y ** 2 + step, base);
     float color_value_normal = color_value / (base - 1.0);
 
     gl_FragColor = vec4(vec3(color_value_normal), 1.0);
@@ -140,9 +140,9 @@ let fsColorBands = `
   void main (void) {
     float normal_x = (vpos.x + 1.0) * canvas_x / 2.0;
     float normal_y = (vpos.y + 1.0) * canvas_y / 2.0;
-    float color_value_r = mod(normal_x * normal_y + step, base);
-    float color_value_g = mod(normal_x * normal_y + step + (base / 3.0), base);
-    float color_value_b = mod(normal_x * normal_y + step + (2.0 * base / 3.0), base);
+    float color_value_r = mod(normal_x ** 2 + normal_y ** 2 + step, base);
+    float color_value_g = mod(normal_x ** 2 + normal_y ** 2 + step + (base / 3.0), base);
+    float color_value_b = mod(normal_x ** 2 + normal_y ** 2 + step + (2.0 * base / 3.0), base);
     float color_value_normal_r = color_value_r / (base - 1.0);
     float color_value_normal_g = color_value_g / (base - 1.0);
     float color_value_normal_b = color_value_b / (base - 1.0);
