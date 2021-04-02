@@ -18,11 +18,11 @@ window.onload = function() {
             for (var y=0; y<height; y++) {
                 // Get the pixel index
                 var pixelindex = (y * width + x) * 4;
- 
-                // Generate a xor pattern with some random noise
-                var red = ((x+offset) % 128) * ((y+offset) % 128);
-                var green = ((x+offset) % 128) * ((y+offset) % 128);
-                var blue = ((x+offset) % 128) * ((y+offset) % 128); 
+
+                // Generate pixel values through multiplication 
+                var red = ((x+offset) % 1024) * ((y+offset) % 1024);
+                var green = ((x+offset) % 1024) * ((y+offset) % 1024);
+                var blue = ((x+offset) % 1024) * ((y+offset) % 1024); 
  
                 // Set the pixel data
                 imagedata.data[pixelindex] = red;     // Red
