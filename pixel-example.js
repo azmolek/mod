@@ -36,7 +36,7 @@ window.onload = function() {
     // Main loop
     function main(tframe) {
         // Request animation frames
-        window.requestAnimationFrame(main);
+//        window.requestAnimationFrame(main);
  
         // Create the image
         createImage(Math.floor(tframe / 10));
