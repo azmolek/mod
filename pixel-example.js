@@ -20,12 +20,9 @@ window.onload = function() {
                 var pixelindex = (y * width + x) * 4;
  
                 // Generate a xor pattern with some random noise
-                var red = ((x+offset) % 256) ^ ((y+offset) % 256);
-                var green = ((2*x+offset) % 256) ^ ((2*y+offset) % 256);
-                var blue = 50 + Math.floor(Math.random()*100);
- 
-                // Rotate the colors
-                blue = (blue + offset) % 256;
+                var red = ((x+offset) % 256) * ((y+offset) % 256);
+                var green = ((x+offset) % 256) * ((y+offset) % 256);
+                var blue = ((x+offset) % 256) * ((y+offset) % 256); 
  
                 // Set the pixel data
                 imagedata.data[pixelindex] = red;     // Red
