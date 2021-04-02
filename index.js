@@ -76,7 +76,7 @@ let fsPattern = `
     normal_y = normal_y - (translate_y * base);
 
 
-    float color_value = mod(normal_x * normal_y + step, base);
+    float color_value = mod(normal_x ** 2 + normal_y ** 2 + step, base);
     float color_value_normal = color_value / (base - 1.0);
     if(color_value_normal > 0.5) { color_value_normal = 1.0; }
     if(color_value_normal <= 0.5) { color_value_normal = 0.0; }
@@ -96,7 +96,7 @@ let fsSmooth = `
   void main (void) {
     float normal_x = (vpos.x + 1.0) * canvas_x / 2.0;
     float normal_y = (vpos.y + 1.0) * canvas_y / 2.0;
-    float color_value = mod(normal_x * normal_y + step, base);
+    float color_value = mod(normal_x ** 2 + normal_y ** 2 + step, base);
     float color_value_normal = color_value / (base - 1.0);
     color_value_normal = min(1.0 - color_value_normal, color_value_normal) * 2.0;
 
