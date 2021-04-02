@@ -43,7 +43,7 @@ let fs = `
 
     // Translate the Y position
     normal_y = normal_y - (translate_y * base);
-    float color_value = mod(normal_x ** 2 + normal_y ** 2 + step, base);
+    float color_value = mod(normal_x * normal_y + step, base);
     float color_value_normal = color_value / (base - 1.0);
 
     gl_FragColor = vec4(vec3(color_value_normal), 1.0);
@@ -76,7 +76,7 @@ let fsPattern = `
     normal_y = normal_y - (translate_y * base);
 
 
-    float color_value = mod(normal_x ** 2 + normal_y ** 2 + step, base);
+    float color_value = mod(normal_x * normal_y + step, base);
     float color_value_normal = color_value / (base - 1.0);
     if(color_value_normal > 0.5) { color_value_normal = 1.0; }
     if(color_value_normal <= 0.5) { color_value_normal = 0.0; }
