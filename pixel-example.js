@@ -7,6 +7,19 @@ window.onload = function() {
     // Define the image dimensions
     var width = canvas.width;
     var height = canvas.height;
+
+    // Define the fractal
+    var base = 2
+    var power = 3
+    var length = power + 1
+    var scale = 1024
+    var xstart = 0
+    var ystart = 0
+    var fractalmatrix, x, 
+    
+    // Create the fractal slice
+//  function createFractalSlice
+       // Loop 
  
     // Create an ImageData object
     var imagedata = context.createImageData(width, height);
