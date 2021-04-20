@@ -36,95 +36,33 @@ let fs = `
     float normal_y = (vpos.y + 1.0) * canvas_y / 2.0;
     // Translate the Y position
     normal_y = normal_y - (translate_y * base);
+    // default for multiplication:
     // float color_value = mod(normal_x * normal_y + step, base);
-    float color_value = mod((normal_x * normal_x) + (normal_y * normal_y) + step, base);
+    float color_value = mod((normal_x * normal_x) + (normal_y * normal_y) + (normal_x * normal_y) + step, base);
     float color_value_normal = color_value / (base - 1.0);
     gl_FragColor = vec4(vec3(color_value_normal), 1.0);
     // gl_FragColor = vec4(normal.x, normal.y, 0, 1.0);
   }
 `
 
-// A sine wave from black to white
-let fsSin = `
-  #define PI 3.1415926538
-  precision highp float;
-  varying vec2 vpos;
-  uniform float canvas_x;
-  uniform float canvas_y;
-  uniform float base;
-  uniform float step;
-  void main (void) {
-    float normal_x = (vpos.x + 1.0) * canvas_x / 2.0;
-    float normal_y = (vpos.y + 1.0) * canvas_y / 2.0;
-    float color_value = mod(normal_x * normal_y + step, base);
-    float color_value_normal = color_value / (base - 1.0);
-    float color_value_rad  = color_value_normal * PI;
-    float color_value_sin = sin(color_value_rad);
-    gl_FragColor = vec4(color_value_sin, color_value_sin, color_value_sin, 1.0);
-    // gl_FragColor = vec4(normal.x, normal.y, 0, 1.0);
-  }
-`
-
-// Sin waves RGB
-let fsColorBands = `
-  #define PI 3.1415926538
-  precision highp float;
-  varying vec2 vpos;
-  uniform float canvas_x;
-  uniform float canvas_y;
-  uniform float base;
-  uniform float step;
-  void main (void) {
-    float normal_x = (vpos.x + 1.0) * canvas_x / 2.0;
-    float normal_y = (vpos.y + 1.0) * canvas_y / 2.0;
-    float color_value_r = mod(normal_x * normal_y + step, base);
-    float color_value_g = mod(normal_x * normal_y + step + (base / 3.0), base);
-    float color_value_b = mod(normal_x * normal_y + step + (2.0 * base / 3.0), base);
-    float color_value_normal_r = color_value_r / (base - 1.0);
-    float color_value_normal_g = color_value_g / (base - 1.0);
-    float color_value_normal_b = color_value_b / (base - 1.0);
-    float color_value_rad_r  = color_value_normal_r * PI;
-    float color_value_rad_g  = color_value_normal_g * PI;
-    float color_value_rad_b  = color_value_normal_b * PI;
-    float color_value_sin_r  = (sin(color_value_rad_r) - 0.9) * 10.0;
-    float color_value_sin_g  = (sin(color_value_rad_g) - 0.9) * 10.0;
-    float color_value_sin_b  = (sin(color_value_rad_b) - 0.9) * 10.0;
-    gl_FragColor = vec4(color_value_sin_r, color_value_sin_g, color_value_sin_b, 1.0);
-    // gl_FragColor = vec4(normal.x, normal.y, 0, 1.0);
-  }
-`
-
 /**
- * The HTML element for a base slider
+ * The HTML element for a base slider and value (todo)
  */
 const baseSlider = document.getElementById('base-slider');
-
-/**
- * Display of the base value
- */
 const baseDisplay = document.getElementById('base-value');
-
-/**
- * Show base 
- */
 
 baseSlider.oninput = (e) => {
   let newBase = e.target.value;
   baseDisplay.innerText = `${e.target.value}`;
+// todo: insert future update code here
 }
 
 /**
  * The HTML element for a zoom slider
  */
 const zoomSlider = document.getElementById('zoom-slider')
-
-/**
- * Display of the zoom value
- */
 const zoomDisplay = document.getElementById('zoom-value');
-/**
- * How far we're zoomed in in percentage
- */
+
 let zoomFactor = 1;
 
 zoomSlider.oninput = (e) => {
@@ -137,22 +75,24 @@ zoomSlider.oninput = (e) => {
 }
 
 /**
- * The HTML element for a translate X slider
+ * The HTML element for translate X and Y sliders
  */
 const translateXSlider = document.getElementById('translate-x-slider')
-
-/**
- * Display of the translateX value
- */
+const translateYSlider = document.getElementById('translate-y-slider')
 const translateXDisplay = document.getElementById('translate-x-value');
-/**
- * How far we're translateXed in in percentage
- */
+const translateYDisplay = document.getElementById('translate-y-value');
+
 let translateX = 0;
+let translateY = 0;
 
 translateXSlider.oninput = (e) => {
   translateX = e.target.value / e.target.max;
   translateXDisplay.innerText = `${translateX.toFixed(2)}`;
+}
+
+translateYSlider.oninput = (e) => {
+  translateY = e.target.value / e.target.max;
+  translateYDisplay.innerText = `${translateY}`;
 }
 
 function updateTranslateOnZoom(currentZoomFactor) {
@@ -162,32 +102,13 @@ function updateTranslateOnZoom(currentZoomFactor) {
   translateXDisplay.innerText = `${translateX.toFixed(2)}`;
 }
 
-/**
- * The HTML element for a translate Y slider
- */
-const translateYSlider = document.getElementById('translate-y-slider')
-
-/**
- * Display of the translateY value
- */
-const translateYDisplay = document.getElementById('translate-y-value');
-/**
- * How far we're translateYed in in percentage
- */
-let translateY = 0;
-
-translateYSlider.oninput = (e) => {
-  translateY = e.target.value / e.target.max;
-  translateYDisplay.innerText = `${translateY}`;
-}
-
+// Our proper work begins from here
 
 let vertexShader = gl.createShader(gl.VERTEX_SHADER)
 gl.shaderSource(vertexShader, vs)
 gl.compileShader(vertexShader);
 
 let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-// gl.shaderSource(fragmentShader, fsColorBands);
 gl.shaderSource(fragmentShader, fs)
 gl.compileShader(fragmentShader);
 
