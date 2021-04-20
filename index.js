@@ -1,4 +1,3 @@
-
 // Attach to the Canvas
 let canvas = document.getElementById('canvas');
 // Create the GL context
