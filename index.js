@@ -6,7 +6,7 @@ let gl = canvas.getContext('webgl');
 gl.clearColor(1, 0 , 0, 1)
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-let base = 1024;
+let base = 256;
 // Set the vertex shader
 let vs = `
   attribute vec2 pos;
@@ -66,12 +66,12 @@ const zoomDisplay = document.getElementById('zoom-value');
 let zoomFactor = 1;
 
 zoomSlider.oninput = (e) => {
-  let newZoomFactor = 1 + (e.target.value / 100);
+  let newZoomFactor = 1 + (e.target.value / 10000);
   updateTranslateOnZoom(newZoomFactor);
   base = e.target.value;
 
-  zoomFactor = 1 + (e.target.value / 100);
-  zoomDisplay.innerText = `${e.target.value}%`;
+  zoomFactor = 1 + (e.target.value / 10000);
+  zoomDisplay.innerText = `${e.target.value}`;
 }
 
 /**
